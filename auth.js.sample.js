@@ -5,8 +5,9 @@
 // Instagram apps id and secret !
 // DEBUG=Hiren-Picture ./bin/www
 var config = {
-    clientId : ' Id :/' ,
-    clientSecret : 'secret ;)'
+    client_id : ' Id :/' ,
+    client_secret : 'secret ;)' ,
+    redirect_uri : ''
 };
 
 module.exports = config;
