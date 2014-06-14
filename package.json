@@ -12,6 +12,7 @@
     "debug": "~0.7.4",
     "express": "~4.2.0",
     "handlebars": "^2.0.0-alpha.4",
+    "instagram-node": "^0.4.0",
     "jade": "~1.3.0",
     "mongoose": "^3.8.12",
     "morgan": "~1.0.0",
