@@ -4,8 +4,13 @@
 var Sequelize = require('sequelize');
 
 module.exports = function(sequelize) {
-        sequelize.define('account', {
+       var Account = sequelize.define('account', {
             username: Sequelize.STRING,
-            password: Sequelize.STRING,
-        })
+            password: Sequelize.STRING
+        },{
+            freezeTableName: true
+        });
+    sequelize.sync();
+
+    return Account;
 };
