@@ -37,9 +37,10 @@ function ensureAuthenticated(req, res, next) {
 express()
     .enable('trust proxy')
     .set('view engine', 'ejs')
+    .use(require('morgan')('dev'))
     .use(require('helmet')())
     .use(express.static('./public'))
-    .use(require('body-parser').urlencoded({extended: true}))
+    .use(require('body-parser').urlencoded({extended: false}))
     .use(require('body-parser').json())
     .use(require('cookie-parser')())
     .use(require('serve-favicon')(__dirname + '/public/favicon.ico'))
@@ -50,10 +51,7 @@ express()
     }))
     .use('/auth', auth)
     .get('*', function (req, res) {
-        res.render('index', {
-           // user: JSON.stringify(req.session.user || null)
-           user: null
-        });
+        res.render('index');
     })
     .listen(port, function(){
         console.log('Bunny is running on port: ' + port);
