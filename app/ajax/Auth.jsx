@@ -1,22 +1,24 @@
+import $ from 'jquery';
+
 export default class Auth {
-    constructor(url) {
-        this.request = new Request(url, {
-            //method: 'POST',
-            headers: new Headers({
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Accept': 'application/json'
-            })
-        })
+    static login(url, username, password) {
+        $.ajax({
+            method: 'POST',
+            url: url,
+            data: {'username': username, 'password': password}
+        }).done(function(response) {
+            if(response.token) {
+                sessionStorage.setItem('token', response.token);
+                window.location.href = "/dashboard";
+            }
+        }).fail(function(jqXHR, response) {
+           alert('username/password is not correct !');
+        });
     }
 
-    login(username, password) {
-        fetch(this.request).then(function(response) {
-            console.log(response);
-            if(response) {
-                sessionStorage.setItem('token', response.token);
-                console.log(response.body.text);
-            }
-        })
+    static logout(){
+        sessionStorage.removeItem('token');
+        window.location.href = "/";
     }
 
     registration(username, password) {
