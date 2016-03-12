@@ -1,5 +1,3 @@
-var webpack = require('webpack');
-
 module.exports = {
     entry: [
         './app/app.js'
@@ -16,10 +14,5 @@ module.exports = {
                 exclude: /node_modules/
             }
         ]
-    },
-    plugins: [
-        new webpack.ProvidePlugin({
-            'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
-        })
-    ]
+    }
 };
