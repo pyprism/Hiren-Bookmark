@@ -26,9 +26,8 @@ export default class Login extends React.Component {
     }
 
      login(e) {
-        e.preventDefault()
-        var auth = new Auth('/auth/login');
-        auth.login(ReactDOM.findDOMNode(this.refs.username).value, ReactDOM.findDOMNode(this.refs.password).value);
+        e.preventDefault();
+        Auth.login('/auth/login', ReactDOM.findDOMNode(this.refs.username).value, ReactDOM.findDOMNode(this.refs.password).value);
         }
     
 }
