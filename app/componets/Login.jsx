@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Auth from'../ajax/Auth.jsx';
-
+require("../../public/css/login.css");
 
 export default class Login extends React.Component {
     
