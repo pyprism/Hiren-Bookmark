@@ -2,7 +2,6 @@
  * Created by prism on 3/7/16.
  */
 var express = require('express'),
-    Sequelize = require('sequelize'),
     jwt = require('jsonwebtoken');
 
 try {
@@ -11,9 +10,18 @@ try {
     config = require('./config.json');
 }
 
-var sequelize = new Sequelize('postgres://' + config.db_user + ':' + config.db_password + '@localhost:5432/' + config.db_name);
-var Account = require('./models/Account')(sequelize);
+var knex = require('knex')({
+    client: 'pg',
+    connection: 'postgres://' + config.db_user + ':' + config.db_password + '@localhost:5432/' + config.db_name,
+    searchPath: 'knex,public'
+});
+
+var bookshelf = require('bookshelf')(knex);
+var Account = require('./models/Account')(bookshelf);
+var Tags = require('./models/tag')(bookshelf);
+var Urls = require('./models/Url')(bookshelf);
 var auth = require('./routes/auth')(Account, config);
+var dashboard = require('./routes/auth')(Tags, Urls);
 var port = process.env.PORT || 3000;
 
 //ensure authentication in every request
@@ -50,6 +58,7 @@ express()
         secret: config.secret
     }))
     .use('/auth', auth)
+    .use('/dashboard', dashboard)
     .get('*', function (req, res) {
         res.render('index');
     })
