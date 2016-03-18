@@ -2,7 +2,8 @@
  * Created by prism on 3/7/16.
  */
 var express = require('express'),
-    jwt = require('jsonwebtoken');
+    jwt = require('jsonwebtoken'),
+    mongoose = require('mongoose');
 
 try {
     var config = require('./config.local.json');
@@ -10,16 +11,13 @@ try {
     config = require('./config.json');
 }
 
-var knex = require('knex')({
-    client: 'pg',
-    connection: 'postgres://' + config.db_user + ':' + config.db_password + '@localhost:5432/' + config.db_name,
-    searchPath: 'knex,public'
-});
+var db = mongoose.connection;
+mongoose.connect(config.db_string);
+db.on('error', console.error.bind(console, 'connection error:'));
 
-var bookshelf = require('bookshelf')(knex);
-var Account = require('./models/Account')(bookshelf);
-var Tags = require('./models/tag')(bookshelf);
-var Urls = require('./models/Url')(bookshelf);
+var Account = require('./models/Account')(mongoose);
+var Tags = require('./models/tag')(mongoose);
+var Urls = require('./models/Url')(mongoose);
 var auth = require('./routes/auth')(Account, config);
 var dashboard = require('./routes/auth')(Tags, Urls);
 var port = process.env.PORT || 3000;
