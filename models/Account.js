@@ -2,11 +2,11 @@
  * Created by prism on 3/9/16.
  */
 
-module.exports = function(bookshelf) {
-       var Account = bookshelf.Model.extend({
-           tableName: 'Account',
-           hasTimestamps: true
-       });
+module.exports = function(mongoose) {
+	var AccountSchema = mongoose.Schema({
+		username: String,
+		password: String
+	});
 
-    return Account;
+	return mongoose.model('Account', AccountSchema);
 };
