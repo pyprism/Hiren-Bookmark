@@ -31,7 +31,7 @@ function ensureAuthenticated(req, res, next) {
                 return res.status(403).send({ error: "token not valid"});     
             } else {
                 // if everything is good, save to request for use in other routes
-                req.decoded = decoded;  
+               // req.decoded = decoded;
                 next();
             }
         });
@@ -48,13 +48,13 @@ express()
     .use(express.static('./public'))
     .use(require('body-parser').urlencoded({extended: false}))
     .use(require('body-parser').json())
-    .use(require('cookie-parser')())
+    //.use(require('cookie-parser')())
     .use(require('serve-favicon')(__dirname + '/public/favicon.ico'))
-    .use(require('express-session')({
-        resave: false,
-        saveUninitialized: true,
-        secret: config.secret
-    }))
+    //.use(require('express-session')({
+   //     resave: false,
+   //     saveUninitialized: true,
+  //      secret: config.secret
+  //  }))
     .use('/auth', auth)
     .use('/dashboard', dashboard)
     .get('*', function (req, res) {
