@@ -17,7 +17,7 @@ module.exports = function(Account, config){
             if(c == 1) return res.status(500).send({error: 'account already existed'});
 
             var salt = bcrypt.genSaltSync(10);
-            Account.create({username:req.body.username, password:bcrypt.hashSync(req.body.password, salt)}).then(function() {
+            new Account({username:req.body.username, password:bcrypt.hashSync(req.body.password, salt)}).save().then(function() {
                 res.status(201).send({ message: 'account created'});
         });
 
@@ -28,7 +28,7 @@ module.exports = function(Account, config){
     // route for login
     router.route('/login')
     .post(function(req, res) {
-        Account.findOne({ where: { username: req.body.username}, raw: true}).then(function(user) {
+        Account.findOne({ username: req.body.username}).then(function(user) {
             if(user) {
                 if(bcrypt.compareSync(req.body.password, user.password)) {
                     var token = jwt.sign(user, config.secret);
