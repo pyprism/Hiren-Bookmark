@@ -19,7 +19,7 @@ var Account = require('./models/Account')(mongoose);
 var Tags = require('./models/tag')(mongoose);
 var Urls = require('./models/Url')(mongoose);
 var auth = require('./routes/auth')(Account, config);
-var dashboard = require('./routes/auth')(Tags, Urls);
+var tags = require('./routes/tags')(Tags, Urls);
 var port = process.env.PORT || 3000;
 
 //ensure authentication in every request
@@ -46,7 +46,7 @@ express()
     .use(require('morgan')('dev'))
     .use(require('helmet')())
     .use(express.static('./public'))
-    .use(require('body-parser').urlencoded({extended: false}))
+    .use(require('body-parser').urlencoded({extended: true}))
     .use(require('body-parser').json())
     //.use(require('cookie-parser')())
     .use(require('serve-favicon')(__dirname + '/public/favicon.ico'))
@@ -56,7 +56,7 @@ express()
   //      secret: config.secret
   //  }))
     .use('/auth', auth)
-    .use('/dashboard', dashboard)
+    .use('/tags', tags)
     .get('*', function (req, res) {
         res.render('index');
     })
