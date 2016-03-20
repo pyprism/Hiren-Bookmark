@@ -19,7 +19,8 @@ var Account = require('./models/Account')(mongoose);
 var Tags = require('./models/tag')(mongoose);
 var Urls = require('./models/Url')(mongoose);
 var auth = require('./routes/auth')(Account, config);
-var tags = require('./routes/tags')(Tags, Urls);
+var tags = require('./routes/tags')(Tags);
+var urls = require('./routes/urls')(Tags, Urls);
 var port = process.env.PORT || 3000;
 
 //ensure authentication in every request
@@ -57,6 +58,7 @@ express()
   //  }))
     .use('/auth', auth)
     .use('/tags', tags)
+    .use('/urls', urls)
     .get('*', function (req, res) {
         res.render('index');
     })
