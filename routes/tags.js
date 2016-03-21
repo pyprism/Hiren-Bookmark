@@ -27,22 +27,25 @@ module.exports = function(Tags) {
     router.route('/:id')
     .get(function(req, res) {  // get single tag by id
         Tags.findById(req.params.id).then(function(result) {
-            if(!result) return res.status(404).send({error: 'tag not found'});
             res.status(200).send({tag: result});
-        });
+        }).catch(function(err){
+          return res.status(404).send({error: 'tag not found'});
+        }) ;
     })
     .put(function(req, res) { //update single tag
        Tags.findById(req.params.id).then(function(result) {
-           if(!result) return res.status(404).send({error: 'tag not found'});
            result.name = req.body.name;
            result.save();
            res.status(202).send({message: 'tag updated'});
-       })
+       }).catch(function(err){
+          return res.status(404).send({error: 'tag not found'});
+        }) ;
     })
     .delete(function(req, res) {  //delete single tag
         Tags.remove({_id: req.params.id}).then(function(result) {
-            if(!result) return res.status(404).send({error: 'tag not found'});
             res.status(202).send({message: "tag successfully deleted"});
+        }).catch(function(err){
+          return res.status(404).send({error: 'tag not found'});
         });
     });
 
