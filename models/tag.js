@@ -5,10 +5,11 @@
 module.exports = function(mongoose) {
     var TagSchema = mongoose.Schema({
         name: String,
-        urlId:  {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Url'
-        },
+       // urlId:  {
+       //     type: mongoose.Schema.Types.ObjectId,
+      //      ref: 'Url'
+     //   },
+        urlId: Array,
         date: { type: Date, default: Date.now }
     });
 
