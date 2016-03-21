@@ -21,7 +21,7 @@ module.exports = function(Tags, Urls) {
                 if(result) {
                     var url = new Urls({title: req.body.title, url: req.body.url});
                     url.save();
-                    result._urlId = url._id;
+                    result.urlId.push(url._id);
                     result.save();
                     res.status(201).send({message: 'url created'});
                 }
@@ -30,8 +30,18 @@ module.exports = function(Tags, Urls) {
 
     router.route('/tag/:tag_id')
     .get(function(req, res) {
-        Tags.findById(req.body.tag_id).populate('urlId').then(function(result) {
-            res.send(result);
+        Tags.findById(req.params.tag_id).then(function(result) {
+        	
+        	var urls = [];
+        	for(var _id of result.urlId){
+        		Urls.findById(_id).then(function(url) {
+        			urls.push(url);
+        		})
+        		return res.send(urls);
+        	}
+            
+        }).catch(function(err){
+          return res.status(404).send({error: err});
         });
     });
 
