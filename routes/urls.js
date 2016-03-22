@@ -3,7 +3,8 @@
  */
 
 var express = require('express'),
-    validator = require('validator');
+    validator = require('validator'),
+    Promise = require("bluebird");
 
 module.exports = function(Tags, Urls) {
     var router = express.Router();
@@ -29,19 +30,19 @@ module.exports = function(Tags, Urls) {
         });
 
     router.route('/tag/:tag_id')
-    .get(function(req, res) {
+    .get(function(req, res) {  // get all urls object from specific tag
         Tags.findById(req.params.tag_id).then(function(result) {
-        	
-        	var urls = [];
-        	for(var _id of result.urlId){
-        		Urls.findById(_id).then(function(url) {
-        			urls.push(url);
-        		})
-        		return res.send(urls);
-        	}
-            
-        }).catch(function(err){
-          return res.status(404).send({error: err});
+        	return Promise.map(result.urlId, function(_id) {
+        		return Urls.findById(_id).then(function(url) {
+        			return url;
+        		});
+        	}).then(function(values) {
+        		res.status(200).send(values);
+        	}).caught(function(err) {
+        		res.status(500).send(err);
+        	});    
+        }).catch(function(err, result){
+          return res.status(404).send({error: 'tag not found'});
         });
     });
 
