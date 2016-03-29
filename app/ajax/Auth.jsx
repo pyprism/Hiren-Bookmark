@@ -6,7 +6,7 @@ export default class Auth {
             method: 'POST',
             url: url,
             data: {'username': username, 'password': password},
-            complete: function(response) {
+            success: function(response) {
                 if(response.token) {
                     sessionStorage.setItem('token', response.token);
                     window.location.href = "/dashboard";
@@ -15,7 +15,7 @@ export default class Auth {
             error: function(jqXHR, exception) {
                 alert(jqXHR.responseText);
             }
-        })
+        });
     }
 
     static logout(){
@@ -28,19 +28,13 @@ export default class Auth {
             method: 'POST',
             url: url,
             data: {'username': username, 'password': password},
-           /* succes: function( data, jqXHR, textStatus ) {
-                console.log(data, jqXHR, textStatus);
-                if(response.token) {
-                    sessionStorage.setItem('token', response.token);
-                    window.location.href = "/dashboard";
-                }
-            },*/
+            success: function(response) {
+                window.location.href = "/";
+            },
             error: function(jqXHR, exception) {
                 alert(jqXHR.responseText);
             }
-        }).done(function(response){
-            console.log(response);
-        })
+        });
     }
 
 
