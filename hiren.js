@@ -25,7 +25,7 @@ var port = process.env.PORT || 3000;
 
 //ensure authentication in every request
 function ensureAuthenticated(req, res, next) {
-    var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+    var token = req.headers['x-access-token'];
     if(token) {
         jwt.verify(token, config.secret, function(err, decoded) {          
             if (err) {
@@ -36,8 +36,10 @@ function ensureAuthenticated(req, res, next) {
                 next();
             }
         });
+    } else {
+        return res.status(403).send({ error: "token required"});
     }
-    return res.status(403).send({ error: "token required"});     
+
 
 }
 
@@ -57,7 +59,7 @@ express()
   //      secret: config.secret
   //  }))
     .use('/auth', auth)
-    .use('/tags', tags)
+    .use('/tags', ensureAuthenticated, tags)
     .use('/urls', urls)
     .get('*', function (req, res) {
         res.render('index');
