@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import Tags from '../ajax/Tags.jsx';
-require("../../public/css/simple-sidebar.css");
+
 
 
 export default class Sidebar extends React.Component {
@@ -21,12 +21,15 @@ export default class Sidebar extends React.Component {
 
     render() {
 
-        let items = this.state.loaded? (this.state.tags).map(tag => <li key={tag.id}>
-            <Link to="" params={ {id: tag.id}}> {this.state.tags[tag.id].name} </Link>
+        let items = this.state.loaded? (this.state.tags).map(tag => <li key={tag._id}>
+            <Link to={"/dashboard/tags/" + tag._id} params={ {id: tag._id}} activeStyle={{ color: '#315561'}}>
+                <i className="fa fa-tag"> {tag.name} </i>
+            </Link>
         </li>): [<li key="loading"> <em>Loading......</em> </li>];
 
         return (
             <div>
+
                 {/*-- Sidebar --*/}
                     <div id="sidebar-wrapper">
                         <ul className="sidebar-nav">
@@ -36,9 +39,9 @@ export default class Sidebar extends React.Component {
                                 </a>
                             </li>
                             <li>
-                                <a href="#">Dashboard</a>
+                                <Link to="/dashboard" activeStyle={{ color: '#315561'}}> <i className="fa fa-tachometer"> Dashboard</i> </Link>
                             </li>
-
+                            {items}
                         </ul>
                     </div>
                 {/*-- /#sidebar-wrapper  --*/}
