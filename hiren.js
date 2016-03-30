@@ -46,21 +46,16 @@ function ensureAuthenticated(req, res, next) {
 express()
     .enable('trust proxy')
     .set('view engine', 'ejs')
+    .use(require('compression')())
     .use(require('morgan')('dev'))
     .use(require('helmet')())
     .use(express.static('./public'))
     .use(require('body-parser').urlencoded({extended: true}))
     .use(require('body-parser').json())
-    //.use(require('cookie-parser')())
     .use(require('serve-favicon')(__dirname + '/public/favicon.ico'))
-    //.use(require('express-session')({
-   //     resave: false,
-   //     saveUninitialized: true,
-  //      secret: config.secret
-  //  }))
     .use('/auth', auth)
     .use('/tags', ensureAuthenticated, tags)
-    .use('/urls', urls)
+    .use('/urls', ensureAuthenticated, urls)
     .get('*', function (req, res) {
         res.render('index');
     })
