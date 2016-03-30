@@ -1,12 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Auth from'../ajax/Auth.jsx';
-require("../../public/css/login.css");
+import Helmet from "react-helmet";
 
 export default class Login extends React.Component {
     
     render () {
         return <div className="login">
+            <Helmet
+                title="Hiren-Bookmark: Login"
+                link={[
+                    {"rel": "stylesheet", "href": "/css/login.css"}
+                ]}
+            />
                 <form onSubmit={this.login.bind(this)}>
 
                     <label>
