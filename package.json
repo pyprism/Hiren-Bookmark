@@ -4,8 +4,10 @@
   "description": "",
   "main": "hiren.js",
   "scripts": {
-    "dev": "webpack --progress --colors --watch",
-    "start": "DEBUG=express:* nodemon hiren.js"
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:dev": "webpack --progress --colors --watch",
+    "start:prod": "webpack --progress --colors",
+    "server": "DEBUG=express:* nodemon hiren.js"
   },
   "repository": {
     "type": "git",
@@ -21,17 +23,18 @@
     "bcrypt": "^0.8.5",
     "bluebird": "^3.3.4",
     "body-parser": "^1.15.0",
-    "cookie-parser": "^1.4.1",
+    "compression": "^1.6.1",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
-    "express-session": "^1.13.0",
     "helmet": "^1.3.0",
+    "if-env": "^1.0.0",
     "jquery": "^2.2.1",
     "jsonwebtoken": "^5.7.0",
     "mongoose": "^4.4.7",
     "morgan": "^1.7.0",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
+    "react-helmet": "^3.0.0",
     "react-router": "^2.0.0",
     "serve-favicon": "^2.3.0",
     "validator": "^5.1.0"
