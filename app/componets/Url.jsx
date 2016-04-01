@@ -9,18 +9,30 @@ export default class extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            urls: [],
-            loaded: false
+            urls: []
         };
     }
 
     componentDidMount() {
+        this.fetchData();
+    }
+
+    componentDidUpdate (prevProps) {
+        let oldId = prevProps.params.tag_id;
+        let newId = this.props.params.tag_id;
+        if (newId !== oldId)
+            this.fetchData();
+    }
+
+    fetchData() {
         Urls.getUrls(this.props.params.tag_id).done(urls => {
 
             this.setState({urls: urls || [], loaded: true});
         });
+    }
 
-
+    linkCellFormat(cell, row) {
+       return  '<a href=" ' + cell + ' " target="_blank">' + cell +'</a> ';
     }
 
     render() {
@@ -38,9 +50,9 @@ export default class extends React.Component {
                 <Sidebar/>
                     
                     
-                     <BootstrapTable data={this.state.urls} striped={true} hover={true} bordered={true}>
+                     <BootstrapTable data={this.state.urls} striped={true} hover={true} bordered={true} search={true} multiColumnSearch={true}>
                      <TableHeaderColumn dataField="title" isKey={true} dataAlign="center" dataSort={true}>{this.state.urls['title']} Title</TableHeaderColumn>
-                       <TableHeaderColumn dataField="url" dataSort={true}> <a href={this.state.urls['url']}>{this.state.urls['url']}</a> Link</TableHeaderColumn>
+                       <TableHeaderColumn dataField="url" dataSort={true} dataFormat={this.linkCellFormat}> {this.state.urls['url']} Link</TableHeaderColumn>
                       <TableHeaderColumn dataField="date" >{this.state.urls['date']} Date Added</TableHeaderColumn>
                      </BootstrapTable>
 
