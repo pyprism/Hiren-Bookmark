@@ -12,7 +12,7 @@ module.exports = function(Tags, Urls) {
     router.route('/')
         .get(function(req, res) {
             Urls.find().then(function(urls) {
-                res.status(200).send({ Urls: urls});
+                res.status(200).send({ urls: urls});
             });
 
         })
