@@ -4,6 +4,7 @@ import {Link} from 'react-router';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import Sidebar from './Sidebar.jsx';
 import Urls from '../ajax/Urls.jsx';
+import TagUtils from './TagUtils.jsx';
 
 export default class extends React.Component {
     constructor(props) {
@@ -32,7 +33,7 @@ export default class extends React.Component {
     }
 
     linkCellFormat(cell, row) {
-       return  '<a href=" ' + cell + ' " target="_blank">' + cell +'</a> ';
+        return  '<a href=" ' + cell + ' " target="_blank">' + cell +'</a> ';
     }
 
     render() {
@@ -48,16 +49,15 @@ export default class extends React.Component {
                 ]}
                 />
                 <Sidebar/>
-                    
-                    
-                     <BootstrapTable data={this.state.urls} striped={true} hover={true} bordered={true} search={true} multiColumnSearch={true}>
-                     <TableHeaderColumn dataField="title" isKey={true} dataAlign="center" dataSort={true}>{this.state.urls['title']} Title</TableHeaderColumn>
-                       <TableHeaderColumn dataField="url" dataSort={true} dataFormat={this.linkCellFormat}> {this.state.urls['url']} Link</TableHeaderColumn>
-                      <TableHeaderColumn dataField="date" >{this.state.urls['date']} Date Added</TableHeaderColumn>
-                     </BootstrapTable>
 
-                    
-                
+                <BootstrapTable data={this.state.urls} striped={true} hover={true} bordered={true} search={true} multiColumnSearch={true}>
+                    <TableHeaderColumn dataField="title" isKey={true} dataAlign="center" dataSort={true}>{this.state.urls['title']} Title</TableHeaderColumn>
+                    <TableHeaderColumn dataField="url" dataSort={true} dataFormat={this.linkCellFormat}> {this.state.urls['url']} Link</TableHeaderColumn>
+                    <TableHeaderColumn dataField="date" >{this.state.urls['date']} Date Added</TableHeaderColumn>
+                </BootstrapTable>
+
+
+
             </div>
         )
     }
