@@ -37,4 +37,23 @@ export default class Tags {
 
         });
     }
+
+    static deleteTag(id) {
+        return $.ajax({
+            method: 'DELETE',
+            url: '/tags/'+ id,
+            'beforeSend': function(xhr) {
+                if (sessionStorage.getItem('token')) {
+                    xhr.setRequestHeader('x-access-token', sessionStorage.getItem('token'));
+                }}
+        }).done(function(response){
+            console.log(response);
+            //location.reload(true); //TODO handle page refresh via state
+        }).fail(function(err) {
+            console.log(err);
+            //window.location.href = "/";
+            //alert(err.responseJSON.error);
+
+        });
+    }
 }
