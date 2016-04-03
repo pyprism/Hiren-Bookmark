@@ -19,6 +19,16 @@ export default class Sidebar extends React.Component {
         });
     }
 
+    //componentDidUpdate() {
+    //    this.fetchData();
+   // }
+
+    fetchData() {
+        Tags.getTags().done((response) => {
+            this.setState({tags: response.tags || [], loaded: true});
+        });
+    }
+
     render() {
 
         let items = this.state.loaded? (this.state.tags).map(tag => <li key={tag._id}>
