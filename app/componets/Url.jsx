@@ -49,6 +49,7 @@ export default class extends React.Component {
                 ]}
                 />
                 <Sidebar/>
+                <TagUtils  tag={this.props.params.tag_id}/>
 
                 <BootstrapTable data={this.state.urls} striped={true} hover={true} bordered={true} search={true} multiColumnSearch={true}>
                     <TableHeaderColumn dataField="title" isKey={true} dataAlign="center" dataSort={true}>{this.state.urls['title']} Title</TableHeaderColumn>
